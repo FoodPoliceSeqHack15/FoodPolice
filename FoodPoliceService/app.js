@@ -30,8 +30,9 @@ onFileUploadComplete: function (file) {
 }));
 
 
+
 app.get('/api/healthcard/uploads/:image', function (req, res){
-    
+// Some comments    
 	var image = req.params.image;
 	var filePath1 = path.join(__dirname, 'uploads');
 	var filePath = path.join(filePath1, image);
