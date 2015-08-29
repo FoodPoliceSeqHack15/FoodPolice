@@ -9,7 +9,8 @@ var url = require('url');
 var path = require('path');
 var fs = require('fs');
 
-var upload_path = "https://ec2-52-7-248-41.compute-1.amazonaws.com:8889/api/healthcard/uploads/"
+var upload_path = "http://ec2-52-3-149-53.compute-1.amazonaws.com:8889/api/healthcard/uploads/"
+var neo4j = "http://neo4j:foodpolice@ec2-52-3-149-53.compute-1.amazonaws.com:7474/db/data/transaction/commit";
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser({ keepExtensions: true, uploadDir: "uploads" }));  
@@ -30,6 +31,10 @@ onFileUploadComplete: function (file) {
 }));
 
 
+app.get('/api/echo', function (req, res){	
+	console.log('echo');
+	res.end("echo");
+});
 
 app.get('/api/healthcard/uploads/:image', function (req, res){	
 	var image = req.params.image;
@@ -71,7 +76,7 @@ app.get('/api/healthcard/:food', function (req, res) {
         response.on('data', function (chunk) {
 			console.log('Response: ' + chunk);
 			var classify = JSON.parse(chunk);	
-			var txUrl = "http://neo4j:foodpolice@ec2-52-7-248-41.compute-1.amazonaws.com:7474/db/data/transaction/commit";
+			var txUrl = neo4j;
 			function cypher(query,params,cb) {
 				request.post({uri:txUrl,
 				json:{statements:[{statement:query,parameters:params}]}},
@@ -113,6 +118,7 @@ function parseResponse(input){
   return JSON.stringify(result);
 }
 app.post('/api/healthcard',function(req,res){
+  console.log('POST:/api/healthcard');
   if(done==true){
     var file_path = upload_path + req.files.filename.name;
     console.log(file_path);     
@@ -135,7 +141,7 @@ app.post('/api/healthcard',function(req,res){
         response.on('data', function (chunk) {
 			console.log('Response: ' + chunk);
 			var classify = JSON.parse(chunk);	
-			var txUrl = "http://neo4j:foodpolice@ec2-52-7-248-41.compute-1.amazonaws.com:7474/db/data/transaction/commit";
+			var txUrl = neo4j;
 			function cypher(query,params,cb) {
 				request.post({uri:txUrl,
 				json:{statements:[{statement:query,parameters:params}]}},
