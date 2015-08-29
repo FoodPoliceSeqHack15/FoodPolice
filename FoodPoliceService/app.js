@@ -9,7 +9,7 @@ var url = require('url');
 var path = require('path');
 var fs = require('fs');
 
-var upload_path = "https://ec2-52-7-248-41.compute-1.amazonaws.com:8889/uploads/"
+var upload_path = "https://ec2-52-7-248-41.compute-1.amazonaws.com:8889/api/healthcard/uploads/"
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser({ keepExtensions: true, uploadDir: "uploads" }));  
@@ -31,9 +31,10 @@ onFileUploadComplete: function (file) {
 
 
 app.get('/api/healthcard/uploads/:image', function (req, res){
-
+    
 	var image = req.params.image;
 	var filePath = path.join(__dirname, image);
+      console.log(filePath);
     var stat = fs.statSync(filePath);
 
     res.writeHead(200, {
@@ -112,7 +113,7 @@ function parseResponse(input){
 app.post('/api/healthcard',function(req,res){
   if(done==true){
     var file_path = upload_path + req.files.filename.name;
-     
+    console.log(file_path);     
 	// Build the post string from an object
 	var post_data = JSON.stringify({"classifier_id":37403,"image_url":file_path});
     
