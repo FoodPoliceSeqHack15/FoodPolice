@@ -36,8 +36,8 @@ app.get('/api/echo', function (req, res){
 	res.end("echo");
 });
 
-app.get('/api/dasbhboard/:user', function (req, res){	
-	console.log('GET:/api/dasbhboard/');
+app.get('/api/dashboard/:user', function (req, res){	
+	console.log('GET:/api/dashboard/');
 	var result = {};
 	var expected = {};
 	expected.calories = '2500';
