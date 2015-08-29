@@ -1,0 +1,17 @@
+CREATE (dosa:Food { name: "Dosa"}),
+(idli:Food { name: "Idli"}),
+(sambar_vada:Food { name: "SambarVada"}),
+(coconut_chutney:Food { name: "CoconutChutney"}),
+(sambar:Food { name: "Sambar"}),
+
+(rice:Ingredient { name: "Rice", Amount:160, Calories:206, Carbohydrate:45, Cholestrol:0, Fiber:0.6, Protien:4.2, Fat:0.4, Sodium:2}),
+(urad_dal:Ingredient { name: "UradDal", Amount: 1, Calories:1, Carbohydrate:0, Cholestrol:1, Fiber:1, Protien:1, Fat:1, Sodium:1}),
+(coconut:Ingredient { name: "Coconut", Amount: 1, Calories:1, Carbohydrate:0, Cholestrol:1, Fiber:1, Protien:1, Fat:1, Sodium:1}),
+(red_chilli:Ingredient { name: "RedChilli", Amount: 1, Calories:1, Carbohydrate:0, Cholestrol:1, Fiber:1, Protien:1, Fat:1, Sodium:1}),
+
+
+(dosa)-[:CONTAINS {Quantity: 0.6}]->(rice),(dosa)-[:CONTAINS {Quantity: 0.2}]->(urad_dal),
+(idli)-[:CONTAINS {Quantity: 0.8}]->(rice),(idli)-[:CONTAINS {Quantity: 0.1}]->(urad_dal),
+(sambar_vada)-[:CONTAINS {Quantity: 0.2}]->(rice),(sambar_vada)-[:CONTAINS {Quantity: 0.8}]->(urad_dal),
+(sambar)-[:CONTAINS {Quantity: 0.4}]->(urad_dal),(sambar)-[:CONTAINS {Quantity: 0.05}]->(red_chilli),
+(coconut_chutney)-[:CONTAINS {Quantity: 0.5}]->(coconut),(coconut_chutney)-[:CONTAINS {Quantity: 0.2}]->(urad_dal)
