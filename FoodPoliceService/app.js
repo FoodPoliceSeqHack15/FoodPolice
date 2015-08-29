@@ -36,6 +36,41 @@ app.get('/api/echo', function (req, res){
 	res.end("echo");
 });
 
+app.get('/api/dasbhboard/:user', function (req, res){	
+	console.log('GET:/api/dasbhboard/');
+	var result = {};
+	var expected = {};
+	expected.calories = '2500';
+	expected.carbohydrates = '3000';
+	expected.cholestrol = '3000';
+	expected.fiber = '2000';
+	expected.protein = '1000';
+	
+	
+	var actual = {};
+	actual.calories = '1500';
+	actual.carbohydrates = '4000';
+	actual.cholestrol = '2000';
+	actual.fiber = '3000';
+	actual.protein = '2000';
+	
+	result.expected = expected;
+	result.actual = actual;
+	
+	return res.end(JSON.stringify(result));
+});
+
+app.get('/api/recommendation/:user', function (req, res){	
+	console.log('GET:/api/recommendation/');
+	var result = {};
+	var advised = ['Dosa', 'Idli', 'Roti'];
+	
+	result.advised = advised;
+	
+	return res.end(JSON.stringify(result));
+});
+
+
 app.get('/api/healthcard/uploads/:image', function (req, res){	
 	var image = req.params.image;
 	console.log(image);
@@ -109,10 +144,11 @@ function parseResponse(input){
   var result = {};
   result.food = input.results[0].data[0].row[0];
   var nutrients = {};
-  nutrients.calories = input.results[0].data[0].row[1]; 
-  nutrients.cholestrol = input.results[0].data[0].row[2];
-  nutrients.fiber = input.results[0].data[0].row[3];
-  nutrients.protein = input.results[0].data[0].row[4];
+  nutrients.calories = input.results[0].data[0].row[1];
+  nutrients.carbohydrates = input.results[0].data[0].row[2];  
+  nutrients.cholestrol = input.results[0].data[0].row[3];
+  nutrients.fiber = input.results[0].data[0].row[4];
+  nutrients.protein = input.results[0].data[0].row[5];
   
   result.nutrients = nutrients;
   return JSON.stringify(result);
