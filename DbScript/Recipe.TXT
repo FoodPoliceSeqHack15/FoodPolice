@@ -1,3 +1,9 @@
+
+##################
+####NEW QUERY
+##################
+
+
 CREATE (dosa:Food { name: "Dosa"}),
 (idli:Food { name: "Idli"}),
 (sambar_vada:Food { name: "SambarVada"}),
@@ -36,3 +42,31 @@ CREATE (dosa:Food { name: "Dosa"}),
 (paneer_masala)-[:CONTAINS {Quantity: 2.0}]->(paneer),
 (samosa)-[:CONTAINS {Quantity: 4.0}]->(veg_oil),
 (samosa)-[:CONTAINS {Quantity: 2.0}]->(potato)
+
+##################
+####NEW QUERY
+##################
+
+CREATE (sankalp:Person { name: "Sankalp"}),
+(tarun:Person { name: "Tarun"})
+
+##################
+####NEW QUERY
+##################
+
+MATCH (u:Person {name:'Sankalp'}), (r:Food {name:'Dosa'})
+CREATE (u)-[:ATE {Date:29082015, Quantity:1.0}]->(r)
+
+##################
+####NEW QUERY
+##################
+
+MATCH (u:Person {name:'Sankalp'}), (r:Food {name:'SambarVada'})
+CREATE (u)-[:ATE {Date:28082015, Quantity:1.0}]->(r)
+
+##################
+####NEW QUERY
+##################
+
+MATCH (u:Person {name:'Tarun'}), (r:Food {name:'Dosa'})
+CREATE (u)-[:ATE {Date:29082015, Quantity:1.0}]->(r)
