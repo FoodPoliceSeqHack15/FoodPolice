@@ -38,6 +38,7 @@ app.get('/api/echo', function (req, res){
 
 app.get('/api/dashboard/:user', function (req, res){	
 	console.log('GET:/api/dashboard/');
+	var userId = req.params.user;
 	var result = {};
 	var expected = {};
 	expected.calories = '2500';
@@ -57,11 +58,22 @@ app.get('/api/dashboard/:user', function (req, res){
 	result.expected = expected;
 	result.actual = actual;
 	
-	return res.end(JSON.stringify(result));
+	getPersonsNutrientsInfoForPastWeek(userId, function(err,data){
+		console.log(data);
+		var dataObj = JSON.parse(data);
+		actual.calories = dataObj.calories;
+		actual.carbohydrates = dataObj.carbohydrates;
+		actual.cholestrol = dataObj.cholestrol;
+		actual.fiber = dataObj.fiber;
+		actual.protein = dataObj.protein;
+		return res.end(JSON.stringify(result));
+	});
+	
 });
 
 app.get('/api/recommendation/:user', function (req, res){	
 	console.log('GET:/api/recommendation/');
+	var userId = req.params.user;
 	var result = {};
 	var advised = ['Dosa', 'Idli', 'Roti'];
 	
@@ -80,19 +92,80 @@ function runQuery(query, callback){
 		})
 	}
 
-	console.log(query);
+	//console.log(query);
 	var params={limit: 10}
 		
 	var responseJSON = {};
 	var cb=function(err,data) { 
-	    console.log('Response From Server: ' + data);
-	    console.log(JSON.stringify(data));
+	//    console.log('Response From Server: ' + data);
+	//    console.log(JSON.stringify(data));
 		callback(err, data);
 	}
 
 	cypher(query,params,cb)
 
 }
+function getPersonsNutrientsInfoForPastWeek(personName, callback){
+	var query="MATCH (p:Person)-[r:ATE]-(f:Food) WHERE p.name = '" + personName + "'AND r.Date <= 20150830 AND r.Date >= 20150824 RETURN f.name As FoodName, r.Quantity As QuantityAte"
+	runQuery(query, function(err, personFoodData){
+		//console.log('getPersonsNutrientsInfoForPastWeek: Got person info');
+		var result = {};
+		result.calories = 0; 
+		result.carbohydrates = 0;
+		result.cholestrol = 0;
+		result.fiber = 0;
+		result.protein = 0;
+
+  		var foodItemCount = personFoodData.results[0].data.length;
+  		//console.log(foodItemCount);
+  		
+			function repeater(i){
+				if(i < foodItemCount){
+					var foodName = personFoodData.results[0].data[i].row[0];
+					var quantity = personFoodData.results[0].data[i].row[1];
+				
+					getFoodNutrientsInfo(foodName, function(err, foodNutrientsData){
+			//			console.log("getPersonsNutrientsInfoForPastWeek AftergettingFoodDate: " + JSON.stringify(foodNutrientsData));
+						result.calories = result.calories + (quantity * foodNutrientsData.nutrients.calories);
+						result.carbohydrates = result.carbohydrates + (quantity * foodNutrientsData.nutrients.carbohydrates);
+						result.cholestrol = result.cholestrol + (quantity * foodNutrientsData.nutrients.cholestrol);
+						result.fiber = result.fiber + (quantity * foodNutrientsData.nutrients.fiber);
+						result.protein = result.protein + (quantity * foodNutrientsData.nutrients.protein);
+						repeater(i+1);
+					});	
+				}
+				else{
+					callback(err, JSON.stringify(result));
+				}
+									
+			}
+
+			repeater(0);
+
+		
+	})
+}
+
+
+function getFoodNutrientsInfo(foodName, callback){
+	var query="MATCH (fd:Food)-[r:CONTAINS]-(ingredients) WHERE fd.name='" +  foodName + "' RETURN fd.name As Food, SUM(r.Quantity * ingredients.Calories) As Total_Calories, SUM(r.Quantity * ingredients.Carbohydrate) AS Total_Carbohydrate, SUM(r.Quantity* ingredients.Cholestrol) as Total_Cholestrol, SUM(r.Quantity* ingredients.Fiber) as Total_Fiber,SUM(r.Quantity* ingredients.Protein) as Total_Protein"
+	runQuery(query, function(err, foodNutrientsData){
+		var result = {};
+  		
+  		result.food = foodNutrientsData.results[0].data[0].row[0];
+  		//console.log(result.food);
+		var nutrients = {};
+		nutrients.calories = foodNutrientsData.results[0].data[0].row[1]; 
+		nutrients.carbohydrates = foodNutrientsData.results[0].data[0].row[2];
+		nutrients.cholestrol = foodNutrientsData.results[0].data[0].row[3];
+		nutrients.fiber = foodNutrientsData.results[0].data[0].row[4];
+		nutrients.protein = foodNutrientsData.results[0].data[0].row[5];
+		console.log(nutrients.protein);
+		result.nutrients = nutrients;
+		callback(err, result);
+	})
+}
+
 
 app.get('/api/healthcard/uploads/:image', function (req, res){	
 	var image = req.params.image;
@@ -135,6 +208,14 @@ app.get('/api/healthcard/:food', function (req, res) {
 	cypher(query,params,cb)
 });
 
+function addFoodItemAddedByPerson(personName, foodItemName, callback){
+	var query = "MATCH (u:Person {name:'" + personName + "'}), (r:Food {name:'" + foodItemName +  "'}) CREATE (u)-[:ATE {Date:20150825, Quantity:3.0}]->(r)";
+	runQuery(query, function(err){
+		console.log('addFoodItemAddedByPerson: Added person food info');
+		callback(err);
+	})
+}
+
 
 app.post('/api/healthcard',function(req,res){
   console.log('POST:/api/healthcard');
@@ -143,7 +224,7 @@ app.post('/api/healthcard',function(req,res){
     var file_path = upload_path + req.files.filename.name;
     console.log(file_path);     
 	// Build the post string from an object
-	var post_data = JSON.stringify({"classifier_id":37430,"image_url":file_path});
+	var post_data = JSON.stringify({"classifier_id":37432,"image_url":file_path});
     
     var https_options = url.parse('https://www.metamind.io/vision/classify');
 	https_options.method = 'POST';
@@ -155,7 +236,6 @@ app.post('/api/healthcard',function(req,res){
 	
 	var post_request = https.request(https_options, function(response) {
         response.setEncoding('utf8');
-		console.log("hello");
         response.on('data', function (chunk) {
 			console.log('Response: ' + chunk);
 			var classify = JSON.parse(chunk);	
@@ -171,7 +251,12 @@ app.post('/api/healthcard',function(req,res){
 			var params={limit: 10}
 		
 			var responseJSON = {};
-			var cb=function(err,data) { res.end(parseResponse(data));}
+			var cb=function(err,data) { 
+				addFoodItemAddedByPerson("Sankalp", foodId, function(err){
+					console.log("Added to DB: ");
+					res.end(parseResponse(data));
+				})
+			}
 
 			cypher(query,params,cb)
 	
@@ -229,6 +314,24 @@ function parsePersonResponse(input){
 		var quantity = parsedInput.data[i].row[1];
   }
   return JSON.stringify(result);
+}
+function getFoodNutrientsInfo(foodName, callback){
+	var query="MATCH (fd:Food)-[r:CONTAINS]-(ingredients) WHERE fd.name='" +  foodName + "' RETURN fd.name As Food, SUM(r.Quantity * ingredients.Calories) As Total_Calories, SUM(r.Quantity * ingredients.Carbohydrate) AS Total_Carbohydrate, SUM(r.Quantity* ingredients.Cholestrol) as Total_Cholestrol, SUM(r.Quantity* ingredients.Fiber) as Total_Fiber,SUM(r.Quantity* ingredients.Protein) as Total_Protein"
+	runQuery(query, function(err, foodNutrientsData){
+		var result = {};
+  		
+  		result.food = foodNutrientsData.results[0].data[0].row[0];
+  		console.log(result.food);
+		var nutrients = {};
+		nutrients.calories = foodNutrientsData.results[0].data[0].row[1]; 
+		nutrients.carbohydrates = foodNutrientsData.results[0].data[0].row[2];
+		nutrients.cholestrol = foodNutrientsData.results[0].data[0].row[3];
+		nutrients.fiber = foodNutrientsData.results[0].data[0].row[4];
+		nutrients.protein = foodNutrientsData.results[0].data[0].row[5];
+		console.log(nutrients.protein);
+		result.nutrients = nutrients;
+		callback(err, result);
+	})
 }
 var server = app.listen(8889, function () {
   var host = server.address().address;
