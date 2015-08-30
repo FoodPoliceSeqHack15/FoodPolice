@@ -45,6 +45,14 @@ function runQuery(query, callback){
 
 }
 
+function addFoodItemAddedByPerson(personName, foodItemName, callback){
+	var query = "MATCH (u:Person {name:'" + personName + "'}), (r:Food {name:'" + foodItemName +  "'}) CREATE (u)-[:ATE {Date:20150825, Quantity:3.0}]->(r)";
+	runQuery(query, function(err){
+		console.log('addFoodItemAddedByPerson: Added person food info');
+		callback(err);
+	})
+}
+
 function getPersonsNutrientsInfoForPastWeek(personName, callback){
 	var query="MATCH (p:Person)-[r:ATE]-(f:Food) WHERE p.name = '" + personName + "'AND r.Date <= 20150830 AND r.Date >= 20150824 RETURN f.name As FoodName, r.Quantity As QuantityAte"
 	runQuery(query, function(err, personFoodData){
@@ -130,8 +138,8 @@ app.get('/api/getsummary', function (req, res) {
   	// var parsedString = parseResponse(stringifiedString);
   	// console.log(parsedString);
 
-    getPersonsNutrientsInfoForPastWeek("Sankalp", function(err, data){
-    	console.log("End: " + data);
+    addFoodItemAddedByPerson("Sankalp", "Idli", function(err){
+    	console.log("End: ");
 
   		res.send('PersonName: ' + req.query.PersonName);
     })
