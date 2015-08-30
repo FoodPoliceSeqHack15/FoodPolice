@@ -1,6 +1,9 @@
 package com.foodpolice.optimus.utils;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Map;
@@ -105,17 +110,45 @@ public class NetworkUtil {
             public void onErrorResponse(VolleyError error) {
 //                Toast.makeText(mContext, R.string.image_upload_error, Toast.LENGTH_LONG).show();
                 Toast.makeText(mContext, R.string.image_uploaded, Toast.LENGTH_LONG).show();
+                Log.e("NetworkUtil", "message: " + error.getMessage());
                 callBacks.onErrorResponse(error);
             }
         }, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(mContext, R.string.image_uploaded, Toast.LENGTH_LONG).show();
+//                try {
+//                    if (response != null) {
+//                        Log.e("NetworkUtil", "message: response" + response);
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        String food = jsonObject.getString("food");
+//                        if(!TextUtils.isEmpty(food)) {
+//                            Toast.makeText(mContext, "Uploaded Picture of " + food, Toast.LENGTH_LONG).show();
+//                        } else {
+//                            Log.e("NetworkUtil", "message: data empty");
+//                            Toast.makeText(mContext, R.string.image_uploaded, Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                } catch(Exception e) {
+//                    Log.e("NetworkUtil", "message: caught exception");
+//                    Toast.makeText(mContext, R.string.image_uploaded, Toast.LENGTH_LONG).show();
+//                }
                 callBacks.onResponse(response);
             }
         }, new File(fileName), headers);
 
         RequestQueue queue = Volley.newRequestQueue(mContext);
+
+        request.setRetryPolicy(new DefaultRetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 180000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 0;
+            }
+        });
 
         queue.add(request);
     }
