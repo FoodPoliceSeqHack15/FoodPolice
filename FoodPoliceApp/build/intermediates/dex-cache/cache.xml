@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/ps1/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/commons-io-2.4-f92249e9525e6fe3108fd6a351b30ab41a209e97.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/classes-cc15a5a45f66a5a290a299b83fca1f650630925d.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.3.6/cf8bacbf0d476c7f2221f861269365b66447f7ec/httpmime-4.3.6.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="cf8bacbf0d476c7f2221f861269365b66447f7ec">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/httpmime-4.3.6-76e935e74d917fc34c93c71d67ab7709ce7e8586.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient-android/4.3.5/82edcaec6c7b4599eaeaaf11167ceea41db42f33/httpclient-android-4.3.5.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="82edcaec6c7b4599eaeaaf11167ceea41db42f33">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/httpclient-android-4.3.5-97e55ad804b36b1bb0bb10a18c9fdd630193465b.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/.gradle/caches/modules-2/files-2.1/org.achartengine/achartengine/1.2.0/1413853bee07f3b92670e9cede65f64b4c34749e/achartengine-1.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1413853bee07f3b92670e9cede65f64b4c34749e">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/achartengine-1.2.0-00e3a214a97e0891a165ef2eebe1f5d3ebf3aec4.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/Downloads/adt-bundle-mac-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-79f20b82430afbd39145f26b1dd48d07b72900cc.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/.gradle/caches/modules-2/files-2.1/com.mcxiaoke.volley/library/1.0.18/38da306aafee11459cd935a01d2c92a98dc670a4/library-1.0.18.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="38da306aafee11459cd935a01d2c92a98dc670a4">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/library-1.0.18-37214c0a677fa3f4661da27d846568adc673c80b.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/gson-2.3.1-906333b4322e2f81e5991d69066927b4a9f57a90.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-6a2b622dcd65985f738b3333624e44fd82b76987.jar" />
+    </item>
+    <item
+        jar="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/Users/ps1/github/FoodPolice/FoodPoliceApp/app/build/intermediates/pre-dexed/debug/classes-edff3f9a16ec8d2a628cfca747d7038b06fc359a.jar" />
+    </item>
+
+</items>

@@ -9,7 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.foodpolice.optimus.utils.Constants;
+import com.foodpolice.optimus.utils.NetworkUtil;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,8 +21,10 @@ import java.util.Date;
  * Created by ps1 on 8/29/15.
  */
 public class ImageCaptureActivity extends AppCompatActivity {
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
     private Uri fileUri;
 
     @Override
@@ -46,7 +52,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
         // using Environment.getExternalStorageState() before doing this.
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+                Environment.DIRECTORY_PICTURES), "FoodPoliceApp");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
@@ -61,29 +67,28 @@ public class ImageCaptureActivity extends AppCompatActivity {
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
-//        if (type == MEDIA_TYPE_IMAGE){
+        if (type == MEDIA_TYPE_IMAGE){
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_"+ timeStamp + ".jpg");
-//        } else if(type == MEDIA_TYPE_VIDEO) {
-//            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-//                    "VID_"+ timeStamp + ".mp4");
-//        } else {
-//            return null;
-//        }
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mp4");
+        } else {
+            return null;
+        }
 
         return mediaFile;
     }
-
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // Image captured and saved to fileUri specified in the Intent
-                Toast.makeText(this, "Image saved to:\n" +
-                        data.getData(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Image saved to:\n" +
+//                        fileUri.toString(), Toast.LENGTH_LONG).show();
+
+                uploadPhotoToServer();
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
             } else {
@@ -102,5 +107,11 @@ public class ImageCaptureActivity extends AppCompatActivity {
                 // Video capture failed, advise user
             }
         }
+
+        finish();
+    }
+
+    private void uploadPhotoToServer() {
+        NetworkUtil.getInstance(getApplicationContext()).postMultipartData(Constants.IMAGE_UPLOAD_URL, fileUri.getPath(), null);
     }
 }

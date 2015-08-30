@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--   Copyright 2010 Intuit, Inc. All rights reserved. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true"><shape>
+        <size android:height="47dp" />
+
+        <solid android:color="@color/blue_button_highlight_color" />
+    </shape></item>
+    <item android:state_focused="true"><shape>
+        <size android:height="47dp" />
+
+        <solid android:color="@color/blue_button_highlight_color" />
+    </shape></item>
+    <item><shape>
+        <size android:height="47dp" />
+
+        <solid android:color="@color/blue_button_color" />
+    </shape></item>
+
+</selector>

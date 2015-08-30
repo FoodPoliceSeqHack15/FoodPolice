@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="grid_background">#f1f1f1</color>
+    <color name="grid_highlight_background">#ffffff</color>
+    <color name="first_background">#ffffff</color>
+    <color name="grid_item_border">#d6d6d6</color>
+    <color name="orange_button_color">#ff8000</color>
+    <color name="orange_button_highlight_color">#ce6902</color>
+    <color name="gray_border">#dbdbdb</color>
+    <color name="blue_button_color">#2ab9f4</color>
+    <color name="blue_button_highlight_color">#167faf</color>
+    <color name="bar_graph_standard_color">#2A96FF</color>
+    <color name="bar_graph_actual_color">#CE0000</color>
+    <color name="transparent_background">#00FF0000</color>
+</resources>

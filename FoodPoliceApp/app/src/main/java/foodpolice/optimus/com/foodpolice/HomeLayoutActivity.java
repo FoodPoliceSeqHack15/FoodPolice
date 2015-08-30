@@ -1,9 +1,11 @@
 package foodpolice.optimus.com.foodpolice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class HomeLayoutActivity extends AppCompatActivity {
@@ -12,6 +14,31 @@ public class HomeLayoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
+
+        findViewById(R.id.take_photo_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(HomeLayoutActivity.this, ImageCaptureActivity.class);
+                startActivity(cameraIntent);
+            }
+        });
+
+        findViewById(R.id.get_recommendation).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent recommendationIntent = new Intent(HomeLayoutActivity.this, RecommendationActivity.class);
+                startActivity(recommendationIntent);
+            }
+        });
+
+        findViewById(R.id.dashboard).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent dashboardIntent = new Intent(HomeLayoutActivity.this, DashboardActivity.class);
+                startActivity(dashboardIntent);
+            }
+        });
     }
 
     @Override
