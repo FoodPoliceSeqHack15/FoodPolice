@@ -1,12 +1,15 @@
 package foodpolice.optimus.com.foodpolice;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -14,6 +17,8 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.foodpolice.optimus.utils.Constants;
 import com.foodpolice.optimus.utils.NetworkUtil;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -120,7 +125,44 @@ public class ImageCaptureActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 mProgressDialog.dismiss();
-                finish();
+                if (response != null) {
+                    Log.e("NetworkUtil", "message: response" + response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String food = jsonObject.getString("food");
+                        if (!TextUtils.isEmpty(food)) {
+//                            Toast.makeText(ImageCaptureActivity.this, "Uploaded Picture of " + food, Toast.LENGTH_LONG).show();
+//                            AlertDialog dialog = (new AlertDialog.Builder(ImageCaptureActivity.this)).create();
+//                            dialog.setMessage("Uploaded Picture of " + food);
+//                            dialog.show();
+//                            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                                @Override
+//                                public void onDismiss(DialogInterface dialog) {
+//                                    finish();
+//                                }
+//                            });
+
+                            AlertDialog.Builder db = new AlertDialog.Builder(ImageCaptureActivity.this);
+                            db.setTitle("Add to your Food Log:");
+                            db.setMessage(food);
+                            db.setPositiveButton("OK", new
+                                    DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    });
+
+                            AlertDialog dialog = db.show();
+                        } else {
+                            Log.e("NetworkUtil", "message: data empty");
+                            Toast.makeText(ImageCaptureActivity.this, R.string.image_uploaded, Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    } catch(Exception e) {
+                        Log.e("NetworkUtil", "message: caught exception");
+                        finish();
+                    }
+                }
             }
 
             @Override

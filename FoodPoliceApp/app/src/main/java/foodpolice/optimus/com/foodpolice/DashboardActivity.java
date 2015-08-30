@@ -151,19 +151,19 @@ public class DashboardActivity extends AppCompatActivity {
          * Customizing graphs
          */
 //setting text size of the title
-        multiRenderer.setChartTitleTextSize(28);
+        multiRenderer.setChartTitleTextSize(40);
         //setting text size of the axis title
-        multiRenderer.setAxisTitleTextSize(24);
+        multiRenderer.setAxisTitleTextSize(36);
         //setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(24);
+        multiRenderer.setLabelsTextSize(34);
         //setting zoom buttons visiblity
-        multiRenderer.setZoomButtonsVisible(false);
+        multiRenderer.setZoomButtonsVisible(true);
         //setting pan enablity which uses graph to move on both axis
-        multiRenderer.setPanEnabled(false, false);
+        multiRenderer.setPanEnabled(true, true);
         //setting click false on graph
         multiRenderer.setClickEnabled(false);
         //setting zoom to false on both axis
-        multiRenderer.setZoomEnabled(false, false);
+        multiRenderer.setZoomEnabled(true, true);
         //setting lines to display on y axis
         multiRenderer.setShowGridY(false);
         //setting lines to display on x axis
@@ -173,9 +173,9 @@ public class DashboardActivity extends AppCompatActivity {
         //setting displaying line on grid
         multiRenderer.setShowGrid(false);
         //setting zoom to false
-        multiRenderer.setZoomEnabled(false);
+        multiRenderer.setZoomEnabled(true);
         //setting external zoom functions to false
-        multiRenderer.setExternalZoomEnabled(false);
+        multiRenderer.setExternalZoomEnabled(true);
         //setting displaying lines on graph to be formatted(like using graphics)
         multiRenderer.setAntialiasing(true);
         //setting to in scroll to false
@@ -192,11 +192,11 @@ public class DashboardActivity extends AppCompatActivity {
         multiRenderer.setYLabels(10);
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(10000);
+        multiRenderer.setYAxisMax(5000);
         //setting used to move the graph on xaxiz to .5 to the right
         multiRenderer.setXAxisMin(-0.5);
 //setting max values to be display in x axis
-        multiRenderer.setXAxisMax(11);
+        multiRenderer.setXAxisMax(4);
         //setting bar size or space between two bars
         multiRenderer.setBarSpacing(0.5);
         //Setting background color of the graph to transparent
