@@ -70,6 +70,29 @@ app.get('/api/recommendation/:user', function (req, res){
 	return res.end(JSON.stringify(result));
 });
 
+function runQuery(query, callback){
+
+	function cypher(query,params,cb) {
+		request.post({uri:neo4j,
+		json:{statements:[{statement:query,parameters:params}]}},
+		function(err,res) { 
+			cb(err,res.body)
+		})
+	}
+
+	console.log(query);
+	var params={limit: 10}
+		
+	var responseJSON = {};
+	var cb=function(err,data) { 
+	    console.log('Response From Server: ' + data);
+	    console.log(JSON.stringify(data));
+		callback(err, data);
+	}
+
+	cypher(query,params,cb)
+
+}
 
 app.get('/api/healthcard/uploads/:image', function (req, res){	
 	var image = req.params.image;
@@ -120,7 +143,7 @@ app.post('/api/healthcard',function(req,res){
     var file_path = upload_path + req.files.filename.name;
     console.log(file_path);     
 	// Build the post string from an object
-	var post_data = JSON.stringify({"classifier_id":37403,"image_url":file_path});
+	var post_data = JSON.stringify({"classifier_id":37430,"image_url":file_path});
     
     var https_options = url.parse('https://www.metamind.io/vision/classify');
 	https_options.method = 'POST';
@@ -179,6 +202,34 @@ function parseResponse(input){
   return JSON.stringify(result);
 }
 
+function parseFoodResponse(input){
+  var result = {};
+  var parsedInput = JSON.parse(input);
+  result.food = parsedInput.data[0].row[0];
+  var nutrients = {};
+  nutrients.calories = parsedInput.data[0].row[1]; 
+  nutrients.carbohydrates = parsedInput.data[0].row[2];
+  nutrients.cholestrol = parsedInput.data[0].row[3];
+  nutrients.fiber = parsedInput.data[0].row[4];
+  nutrients.protein = parsedInput.data[0].row[4];
+
+  result.nutrients = nutrients;
+  return JSON.stringify(result);
+}
+
+function parsePersonResponse(input){
+  var result = {};
+  var parsedInput = JSON.parse(input);
+  var foodItemCount = parsedInput.data.length;
+
+  for ( var i = 0; i < foodItemCount; i++) {
+		var foodName = parsedInput.data[i].row[0];
+		var foodNutrientsData = getFoodNutrientsInfo(foodName);
+		console.log(JSON.stringify(foodNutrientsData));
+		var quantity = parsedInput.data[i].row[1];
+  }
+  return JSON.stringify(result);
+}
 var server = app.listen(8889, function () {
   var host = server.address().address;
   var port = server.address().port;
