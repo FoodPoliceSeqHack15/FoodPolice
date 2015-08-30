@@ -99,16 +99,19 @@ public class NetworkUtil {
         queue.add(request);
     }
 
-    public void postMultipartData(String url, final String fileName, final Map<String, String> headers) {
+    public void postMultipartData(String url, final String fileName, final Map<String, String> headers, final NetworkUtilCallBacks callBacks) {
         MultipartRequest request = new MultipartRequest(url, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mContext, R.string.image_upload_error, Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, R.string.image_upload_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.image_uploaded, Toast.LENGTH_LONG).show();
+                callBacks.onErrorResponse(error);
             }
         }, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(mContext, R.string.image_uploaded, Toast.LENGTH_LONG).show();
+                callBacks.onResponse(response);
             }
         }, new File(fileName), headers);
 

@@ -108,9 +108,9 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void openChart(){
         // Creating an XYSeries for Income
-        XYSeries incomeSeries = new XYSeries("Income");
+        XYSeries incomeSeries = new XYSeries("Expected");
         // Creating an XYSeries for Expense
-        XYSeries expenseSeries = new XYSeries("Expense");
+        XYSeries expenseSeries = new XYSeries("Actual");
         // Adding data to Income and Expense Series
         for(int i=0;i< mExpected.size();i++){
             incomeSeries.add(i, mExpected.get(i));

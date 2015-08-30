@@ -23,7 +23,7 @@ public class MultipartRequest extends Request<String> {
 
     MultipartEntityBuilder entity = MultipartEntityBuilder.create();
     HttpEntity httpentity;
-    private String FILE_PART_NAME = "imageFile";
+    private String FILE_PART_NAME = "filename";
 
     private final Response.Listener<String> mListener;
     private final File mFilePart;

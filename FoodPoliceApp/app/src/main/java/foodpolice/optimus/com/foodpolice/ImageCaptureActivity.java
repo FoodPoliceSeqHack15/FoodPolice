@@ -1,5 +1,6 @@
 package foodpolice.optimus.com.foodpolice;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,8 +8,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.foodpolice.optimus.utils.Constants;
 import com.foodpolice.optimus.utils.NetworkUtil;
 
@@ -26,6 +29,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
     private Uri fileUri;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +112,25 @@ public class ImageCaptureActivity extends AppCompatActivity {
             }
         }
 
-        finish();
+//        finish();
     }
 
     private void uploadPhotoToServer() {
-        NetworkUtil.getInstance(getApplicationContext()).postMultipartData(Constants.IMAGE_UPLOAD_URL, fileUri.getPath(), null);
+        NetworkUtil.getInstance(getApplicationContext()).postMultipartData(Constants.IMAGE_UPLOAD_URL, fileUri.getPath(), null, new NetworkUtil.NetworkUtilCallBacks() {
+            @Override
+            public void onResponse(String response) {
+                mProgressDialog.dismiss();
+                finish();
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mProgressDialog.dismiss();
+                finish();
+            }
+        });
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Uploading Image...");
+        mProgressDialog.show();
     }
 }
