@@ -1,17 +1,72 @@
+
+##################
+####NEW QUERY
+##################
+
+
 CREATE (dosa:Food { name: "Dosa"}),
 (idli:Food { name: "Idli"}),
 (sambar_vada:Food { name: "SambarVada"}),
 (coconut_chutney:Food { name: "CoconutChutney"}),
 (sambar:Food { name: "Sambar"}),
+(chapatis:Food { name: "Chapatis"}),
+(paneer_masala:Food { name: "PaneerMasala"}),
+(dal_makhani:Food { name: "DalMakhani"}),
+(samosa:Food { name: "Samosa"}),
 
 (rice:Ingredient { name: "Rice", Amount:160, Calories:206, Carbohydrate:45, Cholestrol:0, Fiber:0.6, Protien:4.2, Fat:0.4, Sodium:2}),
-(urad_dal:Ingredient { name: "UradDal", Amount: 1, Calories:1, Carbohydrate:0, Cholestrol:1, Fiber:1, Protien:1, Fat:1, Sodium:1}),
-(coconut:Ingredient { name: "Coconut", Amount: 1, Calories:1, Carbohydrate:0, Cholestrol:1, Fiber:1, Protien:1, Fat:1, Sodium:1}),
-(red_chilli:Ingredient { name: "RedChilli", Amount: 1, Calories:1, Carbohydrate:0, Cholestrol:1, Fiber:1, Protien:1, Fat:1, Sodium:1}),
+(urad_dal:Ingredient { name: "UradDal", Amount: 150, Calories:180, Carbohydrate:40, Cholestrol:0, Fiber:8, Protien:10, Fat:0, Sodium:26}),
+(veg_oil:Ingredient { name: "VegOil", Amount: 1, Calories:124, Carbohydrate:0, Cholestrol:0, Fiber:0, Protien:0, Fat:14, Sodium:0}),
+(wheat_flour:Ingredient { name: "WheatFlour", Amount: 120, Calories:406, Carbohydrate:86, Cholestrol:0, Fiber:13, Protien:16, Fat:3, Sodium:2}),
+(potato:Ingredient { name: "Potato", Amount: 120, Calories:406, Carbohydrate:86, Cholestrol:0, Fiber:13, Protien:16, Fat:3, Sodium:2}),
+(paneer:Ingredient { name: "Paneer", Amount: 120, Calories:406, Carbohydrate:86, Cholestrol:0, Fiber:13, Protien:16, Fat:3, Sodium:2}),
+(black_lentil:Ingredient { name: "BlackLentil", Amount: 120, Calories:406, Carbohydrate:86, Cholestrol:0, Fiber:13, Protien:16, Fat:3, Sodium:2}),
 
 
-(dosa)-[:CONTAINS {Quantity: 0.6}]->(rice),(dosa)-[:CONTAINS {Quantity: 0.2}]->(urad_dal),
-(idli)-[:CONTAINS {Quantity: 0.8}]->(rice),(idli)-[:CONTAINS {Quantity: 0.1}]->(urad_dal),
-(sambar_vada)-[:CONTAINS {Quantity: 0.2}]->(rice),(sambar_vada)-[:CONTAINS {Quantity: 0.8}]->(urad_dal),
-(sambar)-[:CONTAINS {Quantity: 0.4}]->(urad_dal),(sambar)-[:CONTAINS {Quantity: 0.05}]->(red_chilli),
-(coconut_chutney)-[:CONTAINS {Quantity: 0.5}]->(coconut),(coconut_chutney)-[:CONTAINS {Quantity: 0.2}]->(urad_dal)
+(dosa)-[:CONTAINS {Quantity: 2.0}]->(rice),
+(dosa)-[:CONTAINS {Quantity: 0.5}]->(urad_dal),
+(dosa)-[:CONTAINS {Quantity: 2.0}]->(veg_oil),
+(idli)-[:CONTAINS {Quantity: 3.0}]->(rice),
+(idli)-[:CONTAINS {Quantity: 1.0}]->(urad_dal),
+(dosa)-[:CONTAINS {Quantity: 1.0}]->(veg_oil),
+(sambar_vada)-[:CONTAINS {Quantity: 0.2}]->(rice),
+(sambar_vada)-[:CONTAINS {Quantity: 0.8}]->(urad_dal),
+(sambar)-[:CONTAINS {Quantity: 0.4}]->(urad_dal),
+(sambar)-[:CONTAINS {Quantity: 2.0}]->(veg_oil),
+(dal_makhani)-[:CONTAINS {Quantity: 0.4}]->(black_lentil),
+(dal_makhani)-[:CONTAINS {Quantity: 2.0}]->(veg_oil),
+(coconut_chutney)-[:CONTAINS {Quantity: 0.5}]->(coconut),
+(coconut_chutney)-[:CONTAINS {Quantity: 0.2}]->(urad_dal),
+(chapatis)-[:CONTAINS {Quantity: 0.1}]->(wheat_flour),
+(paneer_masala)-[:CONTAINS {Quantity: 2.0}]->(veg_oil),
+(paneer_masala)-[:CONTAINS {Quantity: 2.0}]->(paneer),
+(samosa)-[:CONTAINS {Quantity: 4.0}]->(veg_oil),
+(samosa)-[:CONTAINS {Quantity: 2.0}]->(potato)
+
+##################
+####NEW QUERY
+##################
+
+CREATE (sankalp:Person { name: "Sankalp"}),
+(tarun:Person { name: "Tarun"})
+
+##################
+####NEW QUERY
+##################
+
+MATCH (u:Person {name:'Sankalp'}), (r:Food {name:'Dosa'})
+CREATE (u)-[:ATE {Date:29082015, Quantity:1.0}]->(r)
+
+##################
+####NEW QUERY
+##################
+
+MATCH (u:Person {name:'Sankalp'}), (r:Food {name:'SambarVada'})
+CREATE (u)-[:ATE {Date:28082015, Quantity:1.0}]->(r)
+
+##################
+####NEW QUERY
+##################
+
+MATCH (u:Person {name:'Tarun'}), (r:Food {name:'Dosa'})
+CREATE (u)-[:ATE {Date:29082015, Quantity:1.0}]->(r)
