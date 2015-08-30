@@ -60,6 +60,12 @@ app.get('/api/dashboard/:user', function (req, res){
 	
 	getPersonsNutrientsInfoForPastWeek(userId, function(err,data){
 		console.log(data);
+		var dataObj = JSON.parse(data);
+		actual.calories = dataObj.calories;
+		actual.carbohydrates = dataObj.carbohydrates;
+		actual.cholestrol = dataObj.cholestrol;
+		actual.fiber = dataObj.fiber;
+		actual.protein = dataObj.protein;
 		return res.end(JSON.stringify(result));
 	});
 	
