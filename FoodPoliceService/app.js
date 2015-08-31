@@ -224,7 +224,7 @@ app.post('/api/healthcard',function(req,res){
     var file_path = upload_path + req.files.filename.name;
     console.log(file_path);     
 	// Build the post string from an object
-	var post_data = JSON.stringify({"classifier_id":37432,"image_url":file_path});
+	var post_data = JSON.stringify({"classifier_id":37434,"image_url":file_path});
     
     var https_options = url.parse('https://www.metamind.io/vision/classify');
 	https_options.method = 'POST';
