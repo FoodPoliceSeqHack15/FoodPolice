@@ -144,7 +144,36 @@ public class ImageCaptureActivity extends AppCompatActivity {
 
                             AlertDialog.Builder db = new AlertDialog.Builder(ImageCaptureActivity.this);
                             db.setTitle("Add to your Food Log:");
-                            db.setMessage(food);
+                            String message = food;
+                            JSONObject nutrients = jsonObject.getJSONObject("nutrients");
+                            if(nutrients != null) {
+                                String calories = nutrients.getString("calories");
+                                if(!TextUtils.isEmpty(calories)) {
+                                    message += "\n\n" + "Calories: " + calories;
+                                }
+
+                                String carbohydrates = nutrients.getString("carbohydrates");
+                                if(!TextUtils.isEmpty(carbohydrates)) {
+                                    message += "\n" + "Carbohydrates: " + carbohydrates;
+                                }
+
+                                String cholestrol = nutrients.getString("cholestrol");
+                                if(!TextUtils.isEmpty(cholestrol)) {
+                                    message += "\n" + "Cholestrol: " + cholestrol;
+                                }
+
+                                String fiber = nutrients.getString("fiber");
+                                if(!TextUtils.isEmpty(fiber)) {
+                                    message += "\n" + "Fiber: " + fiber;
+                                }
+
+                                String protein = nutrients.getString("protein");
+                                if(!TextUtils.isEmpty(protein)) {
+                                    message += "\n" + "Protein: " + protein;
+                                }
+
+                            }
+                            db.setMessage(message);
                             db.setPositiveButton("OK", new
                                     DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
